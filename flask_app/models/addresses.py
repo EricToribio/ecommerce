@@ -21,7 +21,7 @@ class Address:
 
         results = connectToMySQL(DB).query_db(query,data)
 
-        return cls(results[0])
+        return results
     @classmethod
     def get_address(cls,data):
         query = f"SELECT * FROM addresses WHERE {'and '.join(f'{key} = %({key})s' for key in data)} "

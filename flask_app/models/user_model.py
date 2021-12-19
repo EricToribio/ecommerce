@@ -37,14 +37,18 @@ class User:
             'state':data['state'],
             'zip':data['zip']
         }
-        if request:=addresses.Address.get_address(check):
-            address = request
-        else:
-            address = addresses.Address.add_address(check)
+        request = addresses.Address.get_address(check)
+        if not request:
+            insert = addresses.Address.add_address(check)
+        
+        address = addresses.Address.get_address(check)
         cart = shopping_cart.Shopping_cart.new_cart()
-    
         user_data = {
-            **data,
+            'first_name':data['first_name'],
+            'last_name':data['last_name'],
+            'username':data['username'],
+            # 'date_of_birth':data['date_of_birth'], #add dob to login and edit account page
+            'email':data['email'],
             'address_id' : address.id,
             'shopping_cart_id':cart,
             'password':bcrypt.generate_password_hash(data['password'])
