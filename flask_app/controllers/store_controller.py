@@ -10,3 +10,8 @@ def dashboard():
         user = user_model.User.get_one_join(id=session['user_id'])
         return render_template('dashboard.html',user =user)
     return render_template('dashboard.html')
+
+@app.route('/new/product')
+@login_required
+def add_product():
+    return render_template('add_product.html', user = user_model.User.get_one_join(id=session['user_id']))
