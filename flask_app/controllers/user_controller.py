@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,session,flash
 from flask_app.models import user_model#enter model name`
 from flask_app import app, bcrypt
-from flask_app.config.helper import login_required,new_user_validation
+from flask_app.config.helper import login_required,new_user_validation,update_user_validate
 
 
 
@@ -22,7 +22,7 @@ def login():
 @app.route('/edit/user')
 @login_required
 def edit_user():
-    return render_template('edit_account.html', user= user_model.User.get_one(id=session['user_id']))
+    return render_template('edit_account.html', user= user_model.User.get_one_join(id=session['user_id']))
 
 @app.post('/login/user')
 def login_user():
@@ -38,23 +38,22 @@ def login_user():
     return redirect('/')
 
 @app.post('/add/user')
-def add_user():
-    if not user_model.User.validate_new_user(request.form):
+def add_new_user():
+    if not new_user_validation:
         return redirect('/register/user')
     user=user_model.User.add_user(request.form)
     session['user_id'] = user
     return redirect('/dashboard')
 
 @app.post('/edit/user/account')
-# @update_user_validation(request.form)
 def update_user_account():
-    user = user_model.User.get_one(id=session['user_id'])
+    user = user_model.User.get_one_join(id=session['user_id'])
     if not bcrypt.check_password_hash(user.password, request.form['password']):
         flash("Invalid Email/Password")
         return redirect ('/edit/user')
-    user_model.User.update_user_account(request.form)
+    update_user_validate(request.form)
     # if not user_model.User.validate_new_user(request.form):
     #     return redirect('/edit/user')
-    user_model.User.update_user(data)
+    user_model.User.update_user(request.form)
     return redirect('/dashboard')
 

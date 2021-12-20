@@ -32,9 +32,9 @@ class Address:
             return cls(results[0])
 
     @classmethod
-    def update_address(self, data,id):
-        query = f"""UPDATE addresses SET {', '.join(f'{key} = %({key}' for key in data) }
-                            WHERE id = %({id})s """
+    def update_address(self, data):
+        query = """UPDATE addresses SET  street =%(street)s, city =%(city)s, state = %(state)s, zip =%(zip)s           
+                            WHERE id = %(id)s """
 
         results = connectToMySQL(DB).query_db(query,data)
         

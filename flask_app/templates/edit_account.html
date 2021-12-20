@@ -5,7 +5,7 @@
 {% block body %}
 <body class="bg-secondary">
     <div class="container">
-        <h1 class="text-center text-white mt-5">Register</h1>
+        <h1 class="text-center text-white mt-5">Edit Account</h1>
         <div class="text-dark">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -32,20 +32,10 @@
                         <input value='{{user.username}}' class="form-control" name="username" type="text">
                     </div>
                     <div class="mb-3">
-                        <label for="old_password" class="form-label">Current Password:</label>
+                        <label for="password" class="form-label">Password:</label>
                         <input type="password" class="form-control" name="password">
                     </div>
-                
-                    <div class="mb-3">
-                        <label for="password" class="form-label">New Password:</label>
-                        <input type="password" class="form-control" name="password" aria-describedby="passwordHelp">
-                        <div id="passwordHelp">If your not changing your password enter current password in all three boxes</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Confirm New Password:</label>
-                        <input type="password" class="form-control" name="confirm_password">
-                    </div>
-                    <input class="btn btn-primary mt-3 mx-auto" type="submit" value="Sign Up">
+                    <input class="btn btn-primary mt-3 mx-auto" type="submit" value="Edit Account">
             </div>
             <div class=" p-5 col">
                 <div class="mb-3">
@@ -70,7 +60,7 @@
                     <label class="form-label" for="zip">Zip code:</label>
                     <input value='{{address.zip}}' class="form-control" type="number" name="zip" id="zip">
                 </div>
-                <input type="hidden" name="address.id" value="{{ address.id }}">
+                <input type="hidden" name="id" value="{{ address.id }}">
                 {% endfor %}
             </div>
             </form>
