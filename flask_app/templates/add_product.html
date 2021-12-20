@@ -8,52 +8,54 @@
     <h1 class="text-center">Add A New Product</h1>
     <div class="row">
         <div class="col p-5">
-                <form action="/add/new/product">
-                <div class="form-group m-3">
+            <form action="/add/new/product">
+                <div class="form-group mb-3 w-50">
                     <label for="name" class="form-label">Name: </label>
                     <input type="text" name="name" id="name" class="form-control">
                 </div>
-                <div class="form-group m-3">
+                <div class="form-group w-50">
                     <label for="price" class="form-label">Price: </label>
                     <input type="number" name="price" id="price" class="form-control">
                 </div>
-                <div class="form-group m-3">
-                    <label for="picture" class="form-label">Choose a Picture for your product:</label>
-                    <input type="file" name="picture" id="picture" class="form-control">
-                </div> 
-                <div class="form-group ms-3 mt-4">
-                    <label for="on_sale" class="form-label">On Sale</label>
+                <div class="form-group mt-4">
+                    <label for="on_sale" class="form-label">Is it On Sale</label>
                     <label class=" ms-3" for="on_sale">Yes</label>
                     <input class="me-3" type="radio" name="on_sale" id="on_sale" value="yes">
                     <label for="on_sale">No</label>
                     <input type="radio" name="on_sale" id="on_sale" value="no">
                 </div>
-                <div class="form-group ">
-                    <label class="m-3 form-label ">Choose a browser from this list:
-                        <input class="form-control" list="browsers" name="myBrowser" /></label>
-                        <datalist id="browsers">
-                          <option value="Chrome">
-                          <option value="Firefox">
-                          <option value="Internet Explorer">
-                          <option value="Opera">
-                          <option value="Safari">
-                          <option value="Microsoft Edge">
-                        </datalist>
+                <div class="form-group mt-3 w-25 ">
+
+                    <label class="form-label" for="quantity">Enter Quantity: </label>
+                    <input class="form-control" type="number" name="quantity" id="quantity" value="0">
+
                 </div>
+                <button class="btn-success mt-4">Create</button>
+        </div>
+
+        <div class="col p-5">
+            <div class="form-group ">
+                <label for="description" class="form-label">Description: </label>
+                <textarea class="form-control" name="description" id="description" cols="20" rows="5"></textarea>
             </div>
-    
-    <div class="col p-5">
-        <div class="form-group m-3">
-            <label for="description" class="form-label">Description: </label>
-            <textarea class="form-control" name="description" id="description" cols="20" rows="5"></textarea>
+            <div class="form-group mt-4">
+                <label for="picture" class="form-label">Choose a Picture for your product:</label>
+                <input type="file" name="picture" id="picture" class="form-control">
+            </div>
+            <div class="form-group ">
+                <label class="mt-4 form-label ">Choose a Category from the list or :
+                    <input class="form-control" placeholder="Enter in new Category" list="category" name="category_id" /></label>
+                <datalist id="category">
+                    <option value="1" >
+                    <option  value="Firefox">
+                    <option value="Internet Explorer">
+                    <option value="Opera">
+                    <option value="Safari">
+                    <option value="Microsoft Edge">
+                </datalist>
+            </div>
+            </form>
         </div>
-        <div class="form-group m-3">
-            <label for="quantity" class="form-label">Enter Quantity: </label>
-            <input type="number" name="quantity" id="quantity" class="form-control">
-        </div>
-        <div class="d-flex justify-content-center mt-5"><button class="btn-success ">Create</button></div>
-    </form>
     </div>
-</div>
 </div>
 {% endblock %}
