@@ -13,31 +13,46 @@
     {% endblock %}
 </head>
 
-<body>
-    {% block header %}
+
+<body class="bg-secondary">
     <div class="d-flex header p-2 ">
         <div class="d-flex col align-items-center">
             <div>
                 <h1 class="ms-5">Toribio's Ecommerce</h1>
             </div>
         </div>
-        <div class="d-flex col align-items-center justify-content-end ">
-            <a href="/veiw/cart"><img id="shop_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}"
-                    alt="shopping cart"></a>
-            <div class="ms-5">
-                <select onchange="val(this)" id="account"  placeholder="account">
-                    <option >Account</option>
-                    <option value="login">Login</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
+        {% if 'user_id' in session%}
+        <div class="d-flex col align-items-center justify-content-end">
+            
+            <span class="nav-item dropdown me-5">
+                <a 
+                class="nav-link dropdown-toggle link-light"
+                href="#" 
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle='dropdown'
+                aria-expanded="false"
+                >
+                {{user.full_name}}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                <li><a  class="dropdown-item" href="#">Past Orders</a></li>
+                <li><a  class="dropdown-item" href="/edit/user">Edit Account</a></li>
+                <li><a  class="dropdown-item" href="/logout">Log Out</a></li>
+            </ul>
+        </span>
+        <a class="me-5" id='cart' href="/veiw/cart"><img id="shop_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}"
+                alt="shopping cart"></a>
+            
+            {% else %}
             <a class="me-5 ms-5 btn btn-success" href="/login">Login</a>
+            {% endif %}
         </div>
     </div>
-<script src="{{url_for('static',filename='/js/script.js')}} "></script>
-{% endblock %}
-{}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous" ></script> 
+<!-- <script src="{{url_for('static',filename='/js/script.js')}} "></script> -->
+{% block body %}{% endblock %}
+
 </body>
 
 </html>

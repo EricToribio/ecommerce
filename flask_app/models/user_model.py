@@ -22,8 +22,8 @@ class User:
 
     @property
     def full_name(self):
-        
         return f'{self.first_name.capitalize()} {self.last_name.capitalize()}'
+
     def __repr__(self):
         return f"< first name: {self.first_name}, id:{self.id} > "
     # Now we use class methods to query our database
@@ -47,7 +47,6 @@ class User:
             'first_name':data['first_name'],
             'last_name':data['last_name'],
             'username':data['username'],
-            # 'date_of_birth':data['date_of_birth'], #add dob to login and edit account page
             'email':data['email'],
             'address_id' : address.id,
             'shopping_cart_id':cart,
@@ -59,14 +58,17 @@ class User:
         print(user_data)
         results = connectToMySQL(DB).query_db(query,user_data)
         return results
+
     @classmethod
     def get_one(cls,**data):
-        query = """SELECT * FROM users 
-                    WHERE email = %(email)s;"""
+        query = f"""SELECT * FROM users 
+                        JOIN addresses ON addresses.id=users.address_id
+                    WHERE {'and '.join(f'{key} = %({key})s' for key in data)}"""
         results = connectToMySQL(DB).query_db(query,data)
+        user = []
+        
         if results:
-            return cls(results[0])
-
+            return 
     @staticmethod
     def validate_new_user(data):
         errors = {}
