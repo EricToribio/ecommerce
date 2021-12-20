@@ -30,3 +30,11 @@ class Address:
         
         if results:
             return cls(results[0])
+
+    @classmethod
+    def update_address(self, data,id):
+        query = f"""UPDATE addresses SET {', '.join(f'{key} = %({key}' for key in data) }
+                            WHERE id = %({id})s """
+
+        results = connectToMySQL(DB).query_db(query,data)
+        

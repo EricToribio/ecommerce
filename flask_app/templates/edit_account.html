@@ -18,7 +18,7 @@
         <div class="bg-dark text-light card mt-5 w-50 mx-auto ">
             <div class="row">
             <div class=" p-5 col">
-                <form action="/add/user" method="post">
+                <form action="/edit/user/account" method="post">
                     <div class="mb-3">
                         <label class="form-label" for="first_name">First Name:</label>
                         <input value='{{user.first_name}}' class="form-control" type="text" name="first_name" id="first_name">
@@ -38,7 +38,8 @@
                 
                     <div class="mb-3">
                         <label for="password" class="form-label">New Password:</label>
-                        <input type="password" class="form-control" name="password">
+                        <input type="password" class="form-control" name="password" aria-describedby="passwordHelp">
+                        <div id="passwordHelp">If your not changing your password enter current password in all three boxes</div>
                     </div>
                     <div class="mb-3">
                         <label for="confirm_password" class="form-label">Confirm New Password:</label>
@@ -52,22 +53,25 @@
                     <input value='{{user.email}}' type="email" class="form-control" name="email" aria-describedby="emailHelp">
                     <div id="emailHelp">We'll never share your email with anyone else.</div>
                 </div>
+                {% for address in user.address %}
                 <div class="mb-3">
                     <label class="form-label" for="street">Street:</label>
-                    <input value='{{user.street}}' class="form-control" type="text" name="street" id="street">
+                    <input value='{{address.street}}' class="form-control" type="text" name="street" id="street">
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="city">City:</label>
-                    <input value='{{user.city}}' class="form-control" type="text" name="city" id="city">
+                    <input value='{{address.city}}' class="form-control" type="text" name="city" id="city">
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="state">State:</label>
-                    <input value='{{user.state}}' class="form-control" type="text" name="state" id="state">
+                    <input value='{{address.state}}' class="form-control" type="text" name="state" id="state">
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="zip">Zip code:</label>
-                    <input value='{{user.zip}}' class="form-control" type="number" name="zip" id="zip">
+                    <input value='{{address.zip}}' class="form-control" type="number" name="zip" id="zip">
                 </div>
+                <input type="hidden" name="address.id" value="{{ address.id }}">
+                {% endfor %}
             </div>
             </form>
         </div>

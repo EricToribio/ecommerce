@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,session,flash
 from flask_app.models import user_model#enter model name`
 from flask_app import app, bcrypt
-from flask_app.config.helper import login_required
+from flask_app.config.helper import login_required,new_user_validation
 
 
 
@@ -43,5 +43,18 @@ def add_user():
         return redirect('/register/user')
     user=user_model.User.add_user(request.form)
     session['user_id'] = user
+    return redirect('/dashboard')
+
+@app.post('/edit/user/account')
+# @update_user_validation(request.form)
+def update_user_account():
+    user = user_model.User.get_one(id=session['user_id'])
+    if not bcrypt.check_password_hash(user.password, request.form['password']):
+        flash("Invalid Email/Password")
+        return redirect ('/edit/user')
+    user_model.User.update_user_account(request.form)
+    # if not user_model.User.validate_new_user(request.form):
+    #     return redirect('/edit/user')
+    user_model.User.update_user(data)
     return redirect('/dashboard')
 

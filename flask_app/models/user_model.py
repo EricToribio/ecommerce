@@ -63,12 +63,45 @@ class User:
     def get_one(cls,**data):
         query = f"""SELECT * FROM users 
                         JOIN addresses ON addresses.id=users.address_id
-                    WHERE {'and '.join(f'{key} = %({key})s' for key in data)}"""
+                    WHERE {'and '.join(f'users.{key} = %({key})s' for key in data)}"""
         results = connectToMySQL(DB).query_db(query,data)
-        user = []
         
+        user = cls(results[0])
+        user.address = []
+        for row in results:
+            address_data ={
+                **row,
+                "id":row['addresses.id'],
+                "created_at":row['addresses.created_at'],
+                "updated_at":row['addresses.updated_at']
+            }
+        user.address.append(addresses.Address(address_data))
         if results:
-            return 
+            return user
+
+    @classmethod
+    def update_user(cls, data):
+        check = {
+            'street' : data['street'],
+            'city': data['city'],
+            'state':data['state'],
+            'zip':data['zip']
+        }
+        id=data['address_id']
+        addresses.Address.update_address(data, id)
+
+        user_data = {
+            'first_name':data['first_name'],
+            'last_name':data['last_name'],
+            'username':data['username'],
+            'email':data['email'],
+            'password':bcrypt.generate_password_hash(data['password'])
+        }
+        query = f"""INSERT INTO users SET {', '.join(f'{key} = %({key})s' for key in data)}
+                            WHERE id = %({session['user_id']})s;"""
+
+        results = connectToMySQL(DB).query_db(query,data)
+
     @staticmethod
     def validate_new_user(data):
         errors = {}
@@ -76,6 +109,38 @@ class User:
             errors['email'] = 'Please enter valid Email'
         elif 'email' in data and  User.get_one(email=data['email']):
             errors['email']='Please sign in email already has account'
+        if 'password' in data and not  re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$])[\w\d@!#$]{6,12}$", data['password']):
+            errors['password'] = '''password requirements, one uppercase 
+            letter, at least one lowercase letter, at least one special character'''
+        elif 'password'in data and len(data['password']) < 8:
+            errors['password'] = 'Password must be at least 8 characters long'
+        if 'password' in data and 'confirm_password' in data and data['password'] != data['confirm_password']:
+            errors['confirm_password'] = 'Passwords do Not match'
+        if 'first_name' in data and  len(data['first_name']) < 2:
+            errors['first_name']='Please Enter valid First Name'
+        if 'last_name' in data and len(data['last_name']) < 3:
+            errors['last_name']='Please Enter valid Last Name'
+        if 'street' in data and len(data['street']) < 5:
+            errors['street']='Enter a valid street'
+        if 'city' in data and len(data['city']) < 4:
+            errors['city']='Enter a valid city'
+        if 'state' in data and len(data['state']) < 3:
+            errors['state']='Enter full State'
+        if 'zip' in data and   len(data['zip']) < 5:
+            errors['zip']='Enter a valid zip code'
+        if 'username' in data and  len(data['username']) < 4:
+            errors['username']='Username needs to be at least 4 characters'
+        for category, message in errors.items():
+            flash(message, category)
+        return len(errors) == 0
+
+    @staticmethod
+    def update_user_account(data):
+        errors = {}
+        if 'email'in data and not EMAIL_REGEX.match(data['email']):
+            errors['email'] = 'Please enter valid Email'
+        # elif 'email' in data and  User.get_one(email=data['email']):
+        #     errors['email']='Please sign in email already has account'
         if 'password' in data and not  re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$])[\w\d@!#$]{6,12}$", data['password']):
             errors['password'] = '''password requirements, one uppercase 
             letter, at least one lowercase letter, at least one special character'''
