@@ -33,13 +33,14 @@
                 data-bs-toggle='dropdown'
                 aria-expanded="false"
                 >
-                {{user.full_name}}
+                {{user.username.capitalize()}}
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                 {% block dropdown %}
                 <li><a  class="dropdown-item" href="#">Past Orders</a></li>
                 <li><a  class="dropdown-item" href="/edit/user">Edit Account</a></li>
                 <li><a  class="dropdown-item" href="/new/product">Add A Product</a></li>
+                <li><a  class="dropdown-item" href="/edit/product">Edit Product</a></li>
                 <li><a  class="dropdown-item" href="/logout">Log Out</a></li>
                 {% endblock %}
             </ul>

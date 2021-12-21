@@ -67,3 +67,7 @@ class Product:
         #         product.category = categories.Category(categories_data)
         #         all_products.append(product)
         # return all_products
+
+    # @classmethod
+    # def get_one(cls,data):
+    #     query = 
