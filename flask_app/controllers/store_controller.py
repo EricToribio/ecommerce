@@ -17,8 +17,9 @@ def dashboard():
 @app.route('/edit/product')
 @login_required
 def edit_product():
+    user= user_model.User.get_one_join(id=session['user_id'])
     one_product = products.Product.get_one(id=4)
-    return render_template('edit_product.html' ,one_product=one_product)
+    return render_template('edit_product.html' ,one_product=one_product,user=user)
 
 @app.route('/new/product')
 @login_required

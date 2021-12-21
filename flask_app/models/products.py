@@ -68,6 +68,23 @@ class Product:
         #         all_products.append(product)
         # return all_products
 
-    # @classmethod
-    # def get_one(cls,data):
-    #     query = 
+    @classmethod
+    def get_one(cls,**data):
+        query = """SELECT * FROM products 
+                        JOIN categories ON categories.id=products.category_id
+                            WHERE products.id = %(id)s;"""
+
+        results = connectToMySQL(DB).query_db(query,data)
+
+        if results:
+            one_product = []
+            for row in results:
+                cat_data = {
+                    **row,
+                    'id':row['categories.id'],
+                    'name':row['categories.name']
+                }
+                pro=cls(row)
+                pro.cat=categories.Category(cat_data)
+                one_product.append(pro)
+            return one_product
