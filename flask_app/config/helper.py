@@ -23,7 +23,7 @@ def new_user_validation(*args,**kwargs):
         errors['email'] = 'Please enter valid Email'
     elif 'email' in request.form and  User.get_one(email=request.form['email']):
         errors['email']='Please sign in email already has account'
-    if 'password' in request.form and not  re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$])[\w\d@!#$]{6,12}$", request.form['password']):
+    if 'password' in request.form and not  re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$!])[\w\d@#$]{6,12}$", request.form['password']):
         errors['password'] = '''password requirements, one uppercase 
         letter, at least one lowercase letter, at least one special character'''
     elif 'password'in request.form and len(request.form['password']) < 8:

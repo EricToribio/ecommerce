@@ -5,3 +5,15 @@
 #cart {
     width: 60px;
 }
+a{
+    text-decoration: none;
+}
+#dash_link:hover{
+    color: #33373a;
+    text-shadow: 0 0 10px whitesmoke;
+    transition: all 0.3s;
+}
+#product{
+    height: 200px;
+    width: 200px;
+}

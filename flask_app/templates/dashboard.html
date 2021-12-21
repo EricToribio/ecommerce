@@ -5,7 +5,23 @@
 {% endblock %}
 
 <body>
-
+    {% block body %}
+    <div class="wrapper">
+        
+        
+    <h1></h1>
+    <section id="section1">
+        {% for p in all_categories%}
+        {{p.pro.__dict__}}
+        <div class="item">
+            <h2>{{p.name}}</h2>
+            <img alt="{{p.name}}" src="{{url_for('static', filename='/img/{{p.pro.picture}}')}}">
+            </div>
+        {% endfor %}
+    <a href="#section2" class="arrow__btn">›</a>
+    </section>
+    
+    {% endblock %}
 
 
 </body>
