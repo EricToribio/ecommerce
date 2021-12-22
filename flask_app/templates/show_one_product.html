@@ -7,6 +7,28 @@
 
 {% block body %}
 
+{% for product in pro %}
+{% if product.on_sale == 'yes' %}
+<h1 class="text-center">On Sale!!!</h1>
+{% endif %}
+<div class="d-flex row">
+    <div class="col text-center">
+        <h1>{{product.name}}</h1>
+        <img id="one_product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp">
+    </div>
 
+    <div class="col d-flex justify-content-center align-items-top">
+        <div>
+            <h3 class="mb-5">price: {{product.price}}</h3>
+            <h4>Quantity On Hand {{product.quantity}}</h4>
+            {% for category in product.cat %}
+            <a href="/show/by/{{category.id}}">Category: {{category.id}}</a>
+            {% endfor %}
+            <p>Description: {{product.description}}</p>
+        </div>
+<a href="/edit/product/{{product.id}}">Edit</a>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock %}

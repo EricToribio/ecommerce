@@ -33,6 +33,9 @@ a{
 .header{
     background-color: #252F38 ;
 }
+#one_product{
+    height: 60%;
+}
 #product{
     height: 200px;
     width: 200px;
@@ -44,7 +47,7 @@ html {
     margin: 0;
     background-color: #000;
    }
-   h1 {
+   .wrapper h1 {
     font-family: Arial;
     color: #252F38;
     text-align: center;

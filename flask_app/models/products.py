@@ -17,7 +17,16 @@ class Product:
         self.updated_at = data['updated_at']
 
     @property
-    def user()
+    def user():
+        pass
+
+    @property
+    def cat(self):
+        data = {
+            "categories.id":self['category_id']
+        }
+        return categories.Category.get_one(data)
+
 
     @classmethod
     def add_product(cls,data):
@@ -65,12 +74,5 @@ class Product:
         if results:
             one_product = []
             for row in results:
-                cat_data = {
-                    **row,
-                    'id':row['categories.id'],
-                    'name':row['categories.name']
-                }
-                pro=cls(row)
-                pro.cat=categories.Category(cat_data)
-                one_product.append(pro)
+                one_product.append(row)
             return one_product

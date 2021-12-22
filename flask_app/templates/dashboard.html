@@ -16,9 +16,9 @@
     <section id="section1 d-flex">
         <!-- <a href="#section1" class="arrow__btn">‹</a> -->
         {% for product in c.pro %}
-        <div class="item mx-auto ">
-            <a href="/show/{{product.id}}"><img id="product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp"></a>
+        <div class="item mx-auto text-center ">
             <h5 class="">{{product.name}}</h5>
+            <a href="/show/{{product.id}}"><img id="product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp"></a>
         </div>
         {% endfor %}
         
