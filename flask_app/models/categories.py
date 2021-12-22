@@ -17,14 +17,14 @@ class Category:
         
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM categories"
+        query = "SELECT * FROM categories;"
         results = connectToMySQL(DB).query_db(query)
+        cat = []
         if results:
-            cat = []
             for row in results:
                 cat.append(cls(row))
             print('get all cat')
-            return cat
+        return cat
         
 
     @classmethod 

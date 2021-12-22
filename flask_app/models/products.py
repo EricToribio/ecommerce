@@ -23,7 +23,7 @@ class Product:
     @property
     def cat(self):
         data = {
-            "id":self['category_id']
+            "id":self.category_id
         }
         return categories.Category.get_one(data)
 
@@ -51,18 +51,19 @@ class Product:
             return results 
 
     @classmethod
-    def get_all(cls,**data):
+    def get_all(cls,**data) -> list:
         query  = """SELECT * FROM products
                             WHERE category_id =%(category_id)s
-                            LIMIT 5"""
+                            LIMIT 5;"""
 
         results = connectToMySQL(DB).query_db(query,data)
+        print(results)
+        pro = []
         if results:
-            pro = []
             for row in results:
                 pro.append(cls(row))
             print('get all products')
-            return pro
+        return pro
     @classmethod
     def get_user_products(cls,**data):
         query = """ SELECT * FROM products 
@@ -83,7 +84,4 @@ class Product:
         results = connectToMySQL(DB).query_db(query,data)
 
         if results:
-            one_product = []
-            for row in results:
-                one_product.append(row)
-            return one_product
+            return cls(results[0])
