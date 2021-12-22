@@ -9,6 +9,7 @@ class Category:
 
     @property   
     def pro(self) :
+        print('pro')
         return products.Product.get_all(category_id = self.id)
         
         # else:
@@ -22,6 +23,7 @@ class Category:
             cat = []
             for row in results:
                 cat.append(cls(row))
+            print('get all cat')
             return cat
         
 

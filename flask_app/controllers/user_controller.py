@@ -46,7 +46,6 @@ def add_new_user():
     return redirect('/dashboard')
 
 @app.post('/edit/user/account')
-# @update_user_validate
 def update_user_account():
     if not update_user_validate():
         return redirect('/edit/user')

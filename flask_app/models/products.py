@@ -23,7 +23,7 @@ class Product:
     @property
     def cat(self):
         data = {
-            "categories.id":self['category_id']
+            "id":self['category_id']
         }
         return categories.Category.get_one(data)
 
@@ -61,6 +61,7 @@ class Product:
             pro = []
             for row in results:
                 pro.append(cls(row))
+            print('get all products')
             return pro
 
 
