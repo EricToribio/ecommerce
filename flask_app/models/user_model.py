@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import bcrypt, DB, session
 from flask_app.models import addresses, shopping_cart
+from flask_app.models import products
 
 
 
@@ -23,6 +24,10 @@ class User:
     @property
     def full_name(self):
         return f'{self.first_name.capitalize()} {self.last_name.capitalize()}'
+
+    @property
+    def user_products(self):
+        return products.Product.get_user_products(user_id = self.id)
 
     def __repr__(self):
         return f"< first name: {self.first_name}, id:{self.id} > "

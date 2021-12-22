@@ -27,6 +27,13 @@ def show_one_product(id):
     user = user_model.User.get_one_join(id=session['user_id'])
     return render_template('show_one_product.html', pro=pro, user=user)
 
+@app.route('/store/<int:id>')
+@login_required
+def user_store(id):
+    user = user_model.User.get_one(id=id)
+    return render_template('user_store.html',user=user)
+
+
 
 @app.route('/new/product')
 @login_required

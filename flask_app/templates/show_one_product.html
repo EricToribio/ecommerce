@@ -8,35 +8,42 @@
 {% block body %}
 
 {% for product in pro %}
-<div class="card mb-3 col-5 mx-auto mt-5 p-5" >
-    {% if product.on_sale == 'yes' %}
-    <div class="text-center">
-        <h1>On Sale!!</h1>
-    </div>
-    {% endif %}
-    <div class="row g-0 d-flex justify-content-evenly">
-        <div class="col-md-4">
-            <img id="one_product" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp" class="img-fluid rounded-start" alt="{{product.name}}">
+<div class="p-5">
+    <div class="card mb-3 col mx-auto  p-5" >
+        <div class="text-center">
+        {% if product.on_sale == 'yes' %}
+            <h1>On Sale!!</h1>
+            {% endif %}
+            <a href="/store/{{product.user_id}}"><h3>See Sellers Shop</h3></a>
         </div>
-        <div class="col-md-5">
-            <div class="card-body ms-3 ps-5">
-                <h2 class="card-title">{{product.name}}</h2>
-                <h3 class="">price: ${{product.price}}</h3>
-                <h4>Quantity: {{product.quantity}}</h4>
-                {% for category in product.cat %}
-                <a href="/show/by/{{category.id}}">Category: {{category.id}}</a>
-                {% endfor %}
-                <p class="card-text">Description: {{product.description}}</p>
-                <a class="" href="/add/to/cart/{{product.id}}">
-                    <img id="add_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}" alt="shopping-cart">
-                    <p class="ms-5">Add to Cart</p>
-                </a>
-                
-                {% endfor %}
+        <div class="row g-0 d-flex justify-content-evenly align-items-center">
+            <div class="col-md-4 ">
+                <img id="one_product" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp" class="img-fluid rounded-start" alt="{{product.name}}">
+            </div>
+            <div class="col-md-5">
+                <div class="card-body ms-3 ps-5">
+                    <h2 class="card-title mb-3">Product: {{product.name}}</h2>
+                    <h3 class="mb-3">price: ${{product.price}}</h3>
+                    <h4 class="mb-3">Quantity: {{product.quantity}}</h4>
+                    {% for category in product.cat %}
+                    <a class="mb-3" href="/show/by/{{category.id}}">Category: {{category.id}}</a>
+                    {% endfor %}
+                    <p class="card-text mb-3">Description: {{product.description}}</p>
+                    {% if product.user_id == session['user_id'] %}
+                    <a class="btn btn-warning" href="/edit/product/{{product.id}}">Edit product</a>
+                    {% else %}
+                    <a class="" href="/add/to/cart/{{product.id}}">
+                        <img class="mb-3" id="add_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}" alt="shopping-cart">
+                        <p class="ms-4">Add to Cart</p>
+                    </a>
+                    {% endif %}
+    
+                    {% endfor %}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+</div>
 
 
 

@@ -63,7 +63,17 @@ class Product:
                 pro.append(cls(row))
             print('get all products')
             return pro
-
+    @classmethod
+    def get_user_products(cls,**data):
+        query = """ SELECT * FROM products 
+                        WHERE user_id = %(user_id)s;"""
+        results = connectToMySQL(DB).query_db(query,data)
+        if results:
+            pro = []
+            for row in results:
+                pro.append(cls(row))
+            print('get all products')
+            return pro
 
     @classmethod
     def get_one(cls,**data):
