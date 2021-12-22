@@ -14,12 +14,18 @@ def dashboard():
         return render_template('dashboard.html',user =user,all_categories=all_categories)
     return render_template('dashboard.html',all_categories=all_categories)
 
-@app.route('/edit/product')
+@app.route('/edit/product/<int:id>')
 @login_required
-def edit_product():
+def edit_product(id):
     user= user_model.User.get_one_join(id=session['user_id'])
-    one_product = products.Product.get_one(id=4)
+    one_product = products.Product.get_one(id=8)
     return render_template('edit_product.html' ,one_product=one_product,user=user)
+
+@app.route('/show/<int:id>')
+def show_one_product(id):
+    product = products.Product.get_one(id=id)
+    return render_template('show_one_product.html', product=product)
+
 
 @app.route('/new/product')
 @login_required

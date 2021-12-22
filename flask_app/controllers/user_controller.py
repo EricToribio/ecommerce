@@ -37,22 +37,19 @@ def login_user():
     return redirect('/')
 
 @app.post('/add/user')
+# @new_user_validation
 def add_new_user():
-    if not new_user_validation:
+    if not new_user_validation(request.form):
         return redirect('/register/user')
     user=user_model.User.add_user(request.form)
     session['user_id'] = user
     return redirect('/dashboard')
 
 @app.post('/edit/user/account')
+# @update_user_validate
 def update_user_account():
-    user = user_model.User.get_one_join(id=session['user_id'])
-    if not bcrypt.check_password_hash(user.password, request.form['password']):
-        flash("Invalid Email/Password")
-        return redirect ('/edit/user')
-    update_user_validate(request.form)
-    # if not user_model.User.validate_new_user(request.form):
-    #     return redirect('/edit/user')
+    if not update_user_validate():
+        return redirect('/edit/user')
     user_model.User.update_user(request.form)
     return redirect('/dashboard')
 

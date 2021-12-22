@@ -6,15 +6,6 @@
 <body class="bg-secondary">
     <div class="container">
         <h1 class="text-center text-white mt-5">Edit Account</h1>
-        <div class="text-dark">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                 {% for message in messages %}
-                 <p>{{message}}</p>
-                    {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </div>
         <div class="bg-dark text-light card mt-5 w-50 mx-auto ">
             <div class="row">
             <div class=" p-5 col">
@@ -22,18 +13,38 @@
                     <div class="mb-3">
                         <label class="form-label" for="first_name">First Name:</label>
                         <input value='{{user.first_name}}' class="form-control" type="text" name="first_name" id="first_name">
+                        {% for error in get_flashed_messages(category_filter=['first_name']) %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="last_name">Last Name:</label>
                         <input value='{{user.last_name}}' class="form-control" type="text" name="last_name" id="last_name">
+                        {% for error in get_flashed_messages(category_filter=['last_name']) %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
                         <input value='{{user.username}}' class="form-control" name="username" type="text">
+                        {% for error in get_flashed_messages(category_filter=['username']) %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password:</label>
                         <input type="password" class="form-control" name="password">
+                        {% for error in get_flashed_messages(category_filter=['password']) %}
+                        <p class="alert alert-danger">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
                     </div>
                     <input class="btn btn-primary mt-3 mx-auto" type="submit" value="Edit Account">
             </div>
@@ -42,23 +53,48 @@
                     <label for="email" class="form-label">Email address:</label>
                     <input value='{{user.email}}' type="email" class="form-control" name="email" aria-describedby="emailHelp">
                     <div id="emailHelp">We'll never share your email with anyone else.</div>
+                    {% for error in get_flashed_messages(category_filter=['email']) %}
+                    <p class="alert alert-danger">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 </div>
                 {% for address in user.address %}
                 <div class="mb-3">
                     <label class="form-label" for="street">Street:</label>
                     <input value='{{address.street}}' class="form-control" type="text" name="street" id="street">
+                    {% for error in get_flashed_messages(category_filter=['street']) %}
+                    <p class="alert alert-danger">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="city">City:</label>
                     <input value='{{address.city}}' class="form-control" type="text" name="city" id="city">
+                    {% for error in get_flashed_messages(category_filter=['city']) %}
+                    <p class="alert alert-danger">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="state">State:</label>
                     <input value='{{address.state}}' class="form-control" type="text" name="state" id="state">
+                    {% for error in get_flashed_messages(category_filter=['state']) %}
+                    <p class="alert alert-danger">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="zip">Zip code:</label>
                     <input value='{{address.zip}}' class="form-control" type="number" name="zip" id="zip">
+                    {% for error in get_flashed_messages(category_filter=['zip']) %}
+                    <p class="alert alert-danger">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 </div>
                 <input type="hidden" name="id" value="{{ address.id }}">
                 {% endfor %}

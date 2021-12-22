@@ -5,22 +5,25 @@
 {% endblock %}
 
 
-    {% block body %}
-    <div class="wrapper">
-        
-        
-    <h1></h1>
-    <section id="section1">
-        {% for p in all_categories%}
-        {{p.pro.__dict__}}
-        <div class="item">
-            <h2>{{p.name}}</h2>
-            <img alt="{{p.name}}" src="{{url_for('static', filename='/img/{{p.pro.picture}}')}}">
-            </div>
-        {% endfor %}
-    <a href="#section2" class="arrow__btn">›</a>
-    </section>
+{% block body %}
+<div class="wrapper my-5">
+    {% for c in all_categories %}
     
-    {% endblock %}
-
-
+        <a class="mx-auto" href="/show/all/{{c.id}}">
+            <h1>{{c.name.capitalize()}}</h1>
+        </a>
+    
+    <section id="section1 d-flex">
+        <!-- <a href="#section1" class="arrow__btn">‹</a> -->
+        {% for product in c.pro %}
+        <div class="item mx-auto ">
+            <a href="/show/{{product.id}}"><img id="product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp"></a>
+            <h5 class="">{{product.name}}</h5>
+        </div>
+        {% endfor %}
+        
+        <!-- <a href="#section1" class="arrow__btn">›</a> -->
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

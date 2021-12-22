@@ -1,10 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import bcrypt, DB, session
 from flask_app.models import addresses, shopping_cart
-from flask import flash
-import re
 
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+
+
+
 
 # model the class after the friend table from our database
 class User:

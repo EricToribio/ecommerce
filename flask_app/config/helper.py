@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import flash, session, redirect,flash,request
-from flask_app.models.user_model import User
+from flask_app.models import user_model,products
+from flask_app import bcrypt
 import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -15,13 +16,14 @@ def login_required(view):
     return inner
 
 
-
-def new_user_validation(*args,**kwargs):
+# def new_user_validation(func):
+#     @wraps(func)
+def new_user_validation(data):
     errors = {}
     print(request.form)
     if 'email'in request.form and not EMAIL_REGEX.match(request.form['email']):
         errors['email'] = 'Please enter valid Email'
-    elif 'email' in request.form and  User.get_one(email=request.form['email']):
+    elif 'email' in request.form and  user_model.User.get_one(email=request.form['email']):
         errors['email']='Please sign in email already has account'
     if 'password' in request.form and not  re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$!])[\w\d@#$]{6,12}$", request.form['password']):
         errors['password'] = '''password requirements, one uppercase 
@@ -48,11 +50,17 @@ def new_user_validation(*args,**kwargs):
         flash(message, category)
     return len(errors) == 0
 
+    # return inner
 
 
-
-def update_user_validate(data):
+# def update_user_validate(func):
+#     @wraps(func)
+def update_user_validate():
+    data = {**request.form}
     errors = {}
+    user = user_model.User.get_one_join(id=session['user_id'])
+    if  not bcrypt.check_password_hash(user.password, data['password']):
+        errors['password'] = 'Invalid Password'
     if 'email'in data and not EMAIL_REGEX.match(data['email']):
         errors['email'] = 'Please enter valid Email'
     if 'first_name' in data and  len(data['first_name']) < 2:
@@ -65,11 +73,12 @@ def update_user_validate(data):
         errors['city']='Enter a valid city'
     if 'state' in data and len(data['state']) < 3:
         errors['state']='Enter full State'
-    if 'zip' in data and   len(data['zip']) < 5:
+    if 'zip' in data and   len(data['zip']) != 5:
         errors['zip']='Enter a valid zip code'
     if 'username' in data and  len(data['username']) < 4:
         errors['username']='Username needs to be at least 4 characters'
     for category, message in errors.items():
         flash(message, category)
-    return len(errors) == 0
-  
+    return len(errors)== 0
+    # return inner
+
