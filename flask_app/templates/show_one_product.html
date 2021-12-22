@@ -8,27 +8,36 @@
 {% block body %}
 
 {% for product in pro %}
-{% if product.on_sale == 'yes' %}
-<h1 class="text-center">On Sale!!!</h1>
-{% endif %}
-<div class="d-flex row">
-    <div class="col text-center">
-        <h1>{{product.name}}</h1>
-        <img id="one_product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp">
+<div class="card mb-3 col-5 mx-auto mt-5 p-5" >
+    {% if product.on_sale == 'yes' %}
+    <div class="text-center">
+        <h1>On Sale!!</h1>
     </div>
-
-    <div class="col d-flex justify-content-center align-items-top">
-        <div>
-            <h3 class="mb-5">price: {{product.price}}</h3>
-            <h4>Quantity On Hand {{product.quantity}}</h4>
-            {% for category in product.cat %}
-            <a href="/show/by/{{category.id}}">Category: {{category.id}}</a>
-            {% endfor %}
-            <p>Description: {{product.description}}</p>
+    {% endif %}
+    <div class="row g-0 d-flex justify-content-evenly">
+        <div class="col-md-4">
+            <img id="one_product" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp" class="img-fluid rounded-start" alt="{{product.name}}">
         </div>
-<a href="/edit/product/{{product.id}}">Edit</a>
+        <div class="col-md-5">
+            <div class="card-body ms-3 ps-5">
+                <h2 class="card-title">{{product.name}}</h2>
+                <h3 class="">price: ${{product.price}}</h3>
+                <h4>Quantity: {{product.quantity}}</h4>
+                {% for category in product.cat %}
+                <a href="/show/by/{{category.id}}">Category: {{category.id}}</a>
+                {% endfor %}
+                <p class="card-text">Description: {{product.description}}</p>
+                <a class="" href="/add/to/cart/{{product.id}}">
+                    <img id="add_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}" alt="shopping-cart">
+                    <p class="ms-5">Add to Cart</p>
+                </a>
+                
+                {% endfor %}
+        </div>
+      </div>
     </div>
-</div>
-{% endfor %}
+  </div>
+
+
 
 {% endblock %}

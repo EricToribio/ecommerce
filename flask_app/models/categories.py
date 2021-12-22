@@ -7,10 +7,13 @@ class Category:
         self.id = data['id']
         self.name = data['name']
 
-    @property
+    @property   
     def pro(self) :
         return products.Product.get_all(category_id = self.id)
-
+        
+        # else:
+        #     return [1,2,3]
+        
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM categories"
@@ -20,11 +23,12 @@ class Category:
             for row in results:
                 cat.append(cls(row))
             return cat
+        
 
     @classmethod 
     def get_one(cls,data):
         query =f""" SELECT * FROM categories
-                            WHERE {', 'f'{key} = %({key})s' for key in data}"""
+                            WHERE {', '.join(f'{key} = %({key})s' for key in data)}"""
         results = connectToMySQL(DB).query_db(query,data)
         if results:
             return cls(results[0])

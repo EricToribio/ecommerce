@@ -29,13 +29,16 @@
 a{
     text-decoration: none;
 }
+#add_cart{
+    height: 175px;
+}
 
 .header{
     background-color: #252F38 ;
 }
-#one_product{
-    height: 60%;
-}
+/* #one_product{
+    height: 80%;
+} */
 #product{
     height: 200px;
     width: 200px;
