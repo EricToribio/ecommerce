@@ -7,12 +7,12 @@
 
 {% block body %}
 <div class="wrapper my-5">
-            <h1>{{user.full_name.capitalize()}}'s Shop</h1>
+            <h1>{{user.full_name}}'s Shop</h1>
         
     <section id="section1 d-flex">
         <!-- <a href="#section1" class="arrow__btn">‹</a> -->
         {% for product in user.user_products %}
-        <div class="item mx-auto text-center ">
+        <div class="item mx-auto text-center mt-3 ">
             <h5 class="">{{product.name}}</h5>
             <a href="/show/{{product.id}}"><img id="product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp"></a>
         </div>

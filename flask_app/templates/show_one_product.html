@@ -9,40 +9,46 @@
 
 
 <div class="p-5">
-    <div class="card mb-3 col mx-auto  p-5" >
+    <div class="card mb-3 col mx-auto  p-5">
         <div class="text-center">
-        {% if pro.on_sale == 'yes' %}
+            {% if pro.on_sale == 'yes' %}
             <h1>On Sale!!</h1>
             {% endif %}
-            <a href="/store/{{pro.user_id}}"><h3>See Sellers Shop</h3></a>
+            <a href="/store/{{pro.user_id}}">
+                <h3>See Sellers Shop</h3>
+            </a>
         </div>
         <div class="row g-0 d-flex justify-content-evenly align-items-center">
             <div class="col-md-4 ">
-                <img id="one_product" src="{{url_for('static', filename='/img/')}}{{pro.picture}}.webp" class="img-fluid rounded-start" alt="{{pro.name}}">
+                <img id="one_product" src="{{url_for('static', filename='/img/')}}{{pro.picture}}.webp"
+                    class="img-fluid rounded-start" alt="{{pro.name}}">
             </div>
             <div class="col-md-5">
                 <div class="card-body ms-3 ps-5">
                     <h2 class="card-title mb-3">Product: {{pro.name}}</h2>
                     <h3 class="mb-3">price: ${{pro.price}}</h3>
                     <h4 class="mb-3">Quantity: {{pro.quantity}}</h4>
-                    
-                    <a class="mb-3" href="/show/by/{{pro.cat.id}}">Category: {{pro.cat.name.capitalize()}}</a>
-                    
+
+                    <a class="mb-3" href="/show/category/{{pro.cat.id}}">Category: {{pro.cat.name.capitalize()}}</a>
+
                     <p class="card-text mb-3">Description: {{pro.description}}</p>
                     {% if pro.user_id == session['user_id'] %}
                     <a class="btn btn-warning" href="/edit/product/{{pro.id}}">Edit product</a>
                     {% else %}
-                    <a class="" href="/add/to/cart/{{pro.id}}">
-                        <img class="mb-3" id="add_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}" alt="shopping-cart">
-                        <p class="ms-4">Add to Cart</p>
-                    </a>
+                    <form action="/add/to/cart/{{user.shopping_cart_id}}" method="post">
+                        <input type="hidden" name="product_id" value="{{pro.id}}">
+                        <input type="hidden" name="shopping_cart_id" value="{{user.shopping_cart_id}}">
+                        <button id="hide">
+                            <img class="mb-3" id="add_cart"
+                                src="{{url_for('static', filename='/img/shopping-cart.png')}}" alt="shopping-cart">
+                            <p class="ms-4">Add to Cart</p>
+                        </button>
+                    </form>
                     {% endif %}
-    
-                    
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 </div>
 
 

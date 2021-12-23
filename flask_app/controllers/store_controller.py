@@ -1,5 +1,5 @@
 from flask import render_template,request,redirect,session,url_for
-from flask_app.models import user_model, categories, products#enter model name`
+from flask_app.models import user_model, categories, products,shopping_cart_products#enter model name`
 from flask_app import app
 from flask_app.config.helper import login_required
 import os
@@ -18,6 +18,8 @@ def dashboard():
 def edit_product(id):
     one_product = products.Product.get_one(id=id)
     user= user_model.User.get_one_join(id=session['user_id'])
+    if one_product.user_id != session['user_id']:
+        return redirect('/dashboard')
     return render_template('edit_product.html' ,one_product=one_product,user=user)
 
 @app.route('/show/<int:id>')
@@ -33,7 +35,28 @@ def user_store(id):
     user = user_model.User.get_one(id=id)
     return render_template('user_store.html',user=user)
 
+@app.route('/show/category/<int:id>')
+@login_required
+def show_all_in_category(id):
+    category = categories.Category.get_one(id=id)
+    user = user_model.User.get_one(id=session['user_id'])
+    return render_template('category.html', category=category,user=user)
 
+@app.route('/show/cart/<int:id>')
+@login_required
+def shopping_cart(id):
+    user = user_model.User.get_one_join(id=session['user_id'])
+    cart =products.Product.get_products_cart(shopping_cart_id=id)
+    total = 0
+    for item in cart:
+        total += item.price
+    return render_template('shopping_cart.html',cart=cart,user=user,total=total)
+
+@app.post('/add/to/cart/<int:id>')
+@login_required
+def add_to_cart(id):
+    shopping_cart_products.Shopping_cart_product.add_to_cart(request.form)
+    return redirect(f'/show/cart/{id}')
 
 @app.route('/new/product')
 @login_required

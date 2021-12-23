@@ -16,16 +16,14 @@ class Product:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
-    @property
-    def user():
-        pass
+    
 
     @property
     def cat(self):
         data = {
             "id":self.category_id
         }
-        return categories.Category.get_one(data)
+        return categories.Category.get_one(**data)
 
 
     @classmethod
@@ -37,7 +35,7 @@ class Product:
         if not check:
             categories.Category.add_category(cat)
 
-        category =categories.Category.get_one(cat)
+        category =categories.Category.get_one(cat=data['category_id'].lower())
 
         product_data = {
             **data,
@@ -52,7 +50,7 @@ class Product:
 
     @classmethod
     def get_all(cls,**data) -> list:
-        query  = """SELECT * FROM products
+        query  = f"""SELECT * FROM products
                             WHERE category_id =%(category_id)s
                             LIMIT 5;"""
 
@@ -66,15 +64,16 @@ class Product:
         return pro
     @classmethod
     def get_user_products(cls,**data):
-        query = """ SELECT * FROM products 
-                        WHERE user_id = %(user_id)s;"""
+        query = f""" SELECT * FROM products 
+                        WHERE {', '.join(f'{key} = %({key})s' for key in data )} ;"""
         results = connectToMySQL(DB).query_db(query,data)
+        pro = []
+
         if results:
-            pro = []
             for row in results:
                 pro.append(cls(row))
             print('get all products')
-            return pro
+        return pro
 
     @classmethod
     def get_one(cls,**data):
@@ -85,3 +84,16 @@ class Product:
 
         if results:
             return cls(results[0])
+
+    @classmethod
+    def get_products_cart(cls,**data):
+        query = """SELECT * FROM products  
+                            JOIN shopping_cart_products on product_id = products.id 
+                        WHERE shopping_cart_id = %(shopping_cart_id)s;"""
+        results = connectToMySQL(DB).query_db(query,data)
+        pro = []
+        if results:
+            for row in results:
+                pro.append(cls(row))
+            print('get all products')
+        return pro

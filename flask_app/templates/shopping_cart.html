@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Shopping Cart{% endblock %}
+{% block head%}
+{{ super() }}
+{% endblock %}
+
+
+{% block body %}
+<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout-rtl/">
+<!-- Bootstrap core CSS -->
+<link href="../assets/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../checkout/form-validation.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container">
+<main>
+<div class="py-5 text-center">
+  <h2>Checkout Form</h2>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-5 col-lg-4 order-md-last">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="badge bg-secondary rounded-pill">Products</span>
+    </h4>
+    <ul class="list-group mb-3">
+        {% for item in cart %}
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">{{item.name}}</h6>
+          <small class="text-muted"></small>
+        </div>
+        <span class="text-muted">${{item.price}}</span>
+      </li>
+      {% endfor %}
+      
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total (USD)</span>
+        <strong>${{total}}</strong>
+      </li>
+    </ul>
+    <a class="btn btn-success" href="/place/order">Place Order</a>
+
+    
+  </div>
+  <div class="col-md-7 col-lg-8">
+    <h2 class="mb-3  text-center">Shipping info</h2>
+  
+      
+        <div class="d-flex my-5 text-center">
+          <div class="col-sm-6">
+            <h2>First Name: {{user.first_name.capitalize()}}</h2>
+          </div>
+          <div class="col-sm-6">
+          <h2>Last Name: {{user.last_name.capitalize()}}</h2>
+          </div>
+        </div>
+
+        <div class="d-flex text-center">
+          <div class="col-sm-6">
+            <h3>Username: {{user.username.capitalize()}}</h3>
+            </div>
+          <div class="col-sm-6">
+            <h4>Email: {{user.email}}</h4>
+          </div>
+        </div>
+        
+          
+          <div class="d-flex my-5 text-center">
+            {% for address in user.address %}
+            <div class="col-sm-6">
+              <h5>Street: {{address.street}}</h5>
+            </div>
+            <div class="col-sm-6">
+              <h5>City: {{address.city}}</h5>
+            </div>
+          </div>
+          <div class="d-flex text-center">
+            <div class="col-sm-6">
+              <h4>State: {{address.state}}</h4>
+            </div>
+            <div class="col-sm-6">
+              <h5>Zip: {{address.zip}}</h5>
+                  </div>
+                  {% endfor %}
+          </div>
+          <div class="text-center my-4">
+            <p >If you see a error with your Shipping Information</p>
+            <a class="mt-4 btn btn-warning" href="/edit/user">Edit Account</a>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+   
+
+
+
+
+
+
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="../checkout/form-validation.js"></script>
+</body>
+</html>
+{% endblock %}

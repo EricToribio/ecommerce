@@ -1,7 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app import bcrypt, DB, session
-from flask import flash
-import re
+from flask_app import  DB
+
 
 class Shopping_cart:
     def __init__(self,data):
@@ -14,3 +13,5 @@ class Shopping_cart:
         results = connectToMySQL(DB).query_db(query)
         print(results)
         return results
+
+    

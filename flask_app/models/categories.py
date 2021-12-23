@@ -28,7 +28,7 @@ class Category:
         
 
     @classmethod 
-    def get_one(cls,data):
+    def get_one(cls,**data):
         query =f""" SELECT * FROM categories
                             WHERE {', '.join(f'{key} = %({key})s' for key in data)}"""
         results = connectToMySQL(DB).query_db(query,data)

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %} {{ super() }} {% endblock %}
+{% block title %} Add Product {% endblock %}
+
+{% block body %}
+<div class="wrapper my-5">
+    <h1>All Products in {{category.name.capitalize()}}</h1>
+
+<section id="section1 d-flex">
+<!-- <a href="#section1" class="arrow__btn">‹</a> -->
+{% for product in category.pro %}
+<div class="item mx-auto text-center mt-3">
+    <h5 class="">{{product.name}}</h5>
+    <a href="/show/{{product.id}}"><img id="product" alt="{{product.name}}" src="{{url_for('static', filename='/img/')}}{{product.picture}}.webp"></a>
+</div>
+{% endfor %}
+
+<!-- <a href="#section1" class="arrow__btn">›</a> -->
+</section>
+
+</div>
+
+{% endblock %}

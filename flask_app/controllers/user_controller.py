@@ -17,6 +17,8 @@ def log_out():
 
 @app.route('/login')
 def login():
+    if 'user_id' in session:
+        return redirect('/dashboard')
     return render_template("login.html")
 
 @app.route('/edit/user')

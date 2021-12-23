@@ -40,12 +40,12 @@
                 <li><a  class="dropdown-item" href="#">Past Orders</a></li>
                 <li><a  class="dropdown-item" href="/edit/user">Edit Account</a></li>
                 <li><a  class="dropdown-item" href="/new/product">Add A Product</a></li>
-                <li><a  class="dropdown-item" href="/edit/product">Edit Product</a></li>
+                <li><a  class="dropdown-item" href="/store/{{session['user_id']}}">My Shop</a></li>
                 <li><a  class="dropdown-item" href="/logout">Log Out</a></li>
                 {% endblock %}
             </ul>
         </span>
-        <a class="me-5" id='cart' href="/veiw/cart">
+        <a class="me-5" id='cart' href="/show/cart/{{user.shopping_cart_id}}">
             <img id="shop_cart" src="{{url_for('static', filename='/img/shopping-cart.png')}}"
                 alt="shopping cart"></a>
     
