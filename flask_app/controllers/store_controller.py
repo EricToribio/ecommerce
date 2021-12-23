@@ -41,6 +41,15 @@ def show_all_in_category(id):
     category = categories.Category.get_one(id=id)
     user = user_model.User.get_one(id=session['user_id'])
     return render_template('category.html', category=category,user=user)
+@app.route('/place/order')
+@login_required
+def place_order():
+    user = user_model.User.get_one(id=session['user_id'])
+    return render_template('past_orders.html', user=user)
+
+
+
+
 
 @app.route('/show/cart/<int:id>')
 @login_required

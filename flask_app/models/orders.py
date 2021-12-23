@@ -6,6 +6,7 @@ class Orders:
     def __init__(self,data):
         self.id = data['id']
         self.user_order_id = data['user_order_id']
+        self.created_at = data['created_at']
 
     @classmethod
     def add_order(cls):
@@ -14,4 +15,16 @@ class Orders:
         return results
     
     @classmethod
-    def 
+    def get_orders(cls,data):
+        query - """ SELECT * FROM orders 
+                            JOIN orders_has_products ON orders.id = order_id
+                            JOIN products ON products.id = orders_has_products.purchased_product_id
+                            where user_order_id = %(user_order_id)s;"""
+
+        results - connectToMySQL(DB).query_db(query,data)
+
+    orders = []
+    if results:
+        for row in results:
+            pass
+            
