@@ -31,11 +31,11 @@ class Product:
         cat ={
             'name' : data['category_id'].lower()
         }
-        check = categories.Category.get_one(cat)
+        check = categories.Category.get_one(name=data['category_id'].lower())
         if not check:
             categories.Category.add_category(cat)
 
-        category =categories.Category.get_one(cat=data['category_id'].lower())
+        category =categories.Category.get_one(name=data['category_id'].lower())
 
         product_data = {
             **data,
