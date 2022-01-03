@@ -26,14 +26,11 @@
                     <input type="radio" name="on_sale" id="on_sale" value="no"{{"checked" if one_product.on_sale == 'no'}}>
                 </div>
                 <div class="form-group mt-3 w-25 ">
-
                     <label class="form-label" for="quantity">Enter Quantity: </label>
                     <input class="form-control" type="number" name="quantity" id="quantity" value="{{one_product.quantity}}">
-
                 </div>
                 <button class="btn-success mt-4">Create</button>
         </div>
-
         <div class="col p-5">
             <div class="form-group ">
                 <label for="description" class="form-label">Description: </label>
@@ -45,17 +42,16 @@
             </div>
             <div class="form-group ">
                 <label class="mt-4 form-label ">Choose a Category from the list or :
-                 
-                    <input class="form-control" placeholder="Enter in new Category" value="" list="category" name="category_id" /></label>
-                    
-                    
+                    <input class="form-control"  value="{{one_product.cat.name.capitalize()}}" list="category" name="category_id" /></label>
                 <datalist id="category">
-                    {% for cat in category %}
-                    <option value="{{cat.name}}" >
+                    {% for category in category %}
+                    {% if category.name != one_product.cat.name %}
+                    <option value="{{category.name.capitalize()}}" >
+                        {% endif %}
                         {% endfor %}
                 </datalist>
             </div>
-            <input type="hidden" name="user_id" value="{{session['user_id']}}">
+        
             </form>
         </div>
     </div>

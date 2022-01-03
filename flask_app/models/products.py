@@ -49,6 +49,18 @@ class Product:
             return results 
 
     @classmethod
+    def edit_product(cls, data, id = None):
+        query = f""" UPDATE products SET { ' , '.join(f' {key} = %({key})s ' for key in data ) } 
+                            WHERE id = %(id)s ;"""
+        data = {
+            **data,
+            'id' : id
+        }
+        results = connectToMySQL(DB).query_db(query, data)
+        if results:
+            return results 
+
+    @classmethod
     def get_all(cls,**data) -> list:
         query  = f"""SELECT * FROM products
                             WHERE category_id =%(category_id)s

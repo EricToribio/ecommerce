@@ -1,4 +1,5 @@
 from functools import wraps
+from os import error
 from flask import flash, session, redirect,flash,request
 from flask_app.models import user_model,products
 from flask_app import bcrypt
@@ -82,3 +83,8 @@ def update_user_validate():
     return len(errors)== 0
     # return inner
 
+
+
+def validate_prodruct(data):
+    errors = {}
+    
