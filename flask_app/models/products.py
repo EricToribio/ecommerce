@@ -109,3 +109,10 @@ class Product:
                 pro.append(cls(row))
             print('get all products')
         return pro
+
+    @classmethod
+    def delete_product(cls,**data):
+        query = " DELETE FROM products WHERE id = %(id)s;"
+        
+        results = connectToMySQL(DB).query_db(query,data)
+

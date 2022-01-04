@@ -34,6 +34,7 @@
                     <p class="card-text mb-3">Description: {{pro.description}}</p>
                     {% if pro.user_id == session['user_id'] %}
                     <a class="btn btn-warning" href="/edit/product/{{pro.id}}">Edit product</a>
+                    <a class="btn btn-danger" href="/delete/product/{{pro.id}}">Delete</a>
                     {% else %}
                     <form action="/add/to/cart/{{user.shopping_cart_id}}" method="post">
                         <input type="hidden" name="product_id" value="{{pro.id}}">

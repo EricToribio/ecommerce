@@ -110,3 +110,9 @@ def and_new_product():
         picture.save(os.path.join(app.static_folder, f"img/{session['user_id']}_{request.form['name']}.webp"))
     products.Product.add_product(request.form)
     return redirect('/dashboard')
+
+@app.route('/delete/product/<int:id>')
+@login_required
+def delete_product(id):
+    products.Product.delete_product(id=id)
+    return redirect('/dashboard')
