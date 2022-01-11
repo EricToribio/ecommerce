@@ -85,6 +85,6 @@ def update_user_validate():
 
 
 
-def validate_prodruct(data):
+def validate_product(data):
     errors = {}
     

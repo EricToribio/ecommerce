@@ -60,7 +60,6 @@ class User:
         query = f"""INSERT INTO users ({', '.join(f'{key} 'for key in user_data)}) 
                             VALUES ({', '.join(f'%({key})s' for key in user_data)})"""
         
-        print(user_data)
         results = connectToMySQL(DB).query_db(query,user_data)
         if results:
             return results
