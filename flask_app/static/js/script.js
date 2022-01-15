@@ -1,7 +1,17 @@
-// function val() {
-//     const dropdown = document.getElementById('account')
-//     const select = dropdown.options[dropdown.selectedIndex].value 
-//     window.location.href ='/'+select
-//     }
-    
+// This is your test publishable API key.
+var stripe = Stripe(checkout_public_key);
 
+const btn = document.getElementById('checkout')
+
+btn.addEventListener('click', event => {
+    stripe.redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+        sessionId: checkout_session_id
+    }).then(function (result) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+    });
+})

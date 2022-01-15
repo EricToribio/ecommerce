@@ -51,7 +51,14 @@
     
             </div>
             {% else %}
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center text-white text-lg">
+                {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                             {% for message in messages %}
+                             <h3>{{message}}</h3>
+                                {% endfor %}
+                        {% endif %}
+                        {% endwith %}
                 <a id='login' class="mx-5 px-3 py-2 btn btn-success" href="/login">Login</a>
             </div>
             {% endif %}

@@ -41,7 +41,8 @@
         <strong>${{total}}</strong>
       </li>
     </ul>
-    <a class="btn btn-success" href="/place/order">Place Order</a>
+    <button id="checkout">Place Order</button>
+    <!-- <a class="btn btn-success" href="/place/order">Place Order</a> -->
 
     
   </div>
@@ -93,6 +94,11 @@
           </div>
         </div>
       </div>
+      <script>
+        const checkout_public_key = '{{checkout_public_key}}'
+        const checkout_session_id = '{{checkout_session_id}}';
+      </script>
+      <script src="{url_for('static', filename='/js/script.js')}"></script>
 </body>
 </html>
 {% endblock %}

@@ -12,6 +12,7 @@ def login_required(view):
     @wraps(view)
     def inner(*args, **kwargs):
         if 'user_id' not in session:
+            flash("Please sign in first")
             return redirect('/')
         return view(*args, **kwargs)
     return inner

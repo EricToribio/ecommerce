@@ -1,8 +1,13 @@
-from flask import render_template,request,redirect,session,url_for
+from flask import render_template,request,redirect,session,url_for ,current_app
 from flask_app.models import user_model, categories, products,shopping_cart_products#enter model name`
-from flask_app import app
+from flask_app import app 
 from flask_app.config.helper import login_required
 import os
+import stripe
+
+
+stripe.api_key = app.config['STRIPE_SECRET_KEY']
+
 
 @app.route("/")
 @app.route("/dashboard")
@@ -83,12 +88,36 @@ def place_order():
 @app.route('/show/cart/<int:id>')
 @login_required
 def shopping_cart(id):
-    user = user_model.User.get_one_join(id=session['user_id'])
+    user = user_model.User.get_one_join(shopping_cart_id=id)
     cart =products.Product.get_products_cart(shopping_cart_id=id)
     total = 0
+    product_count = 0
     for item in cart:
+        product_count += 1
         total += item.price
-    return render_template('shopping_cart.html',cart=cart,user=user,total=total)
+    
+    session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[{
+            'price': total,
+            'quantity': product_count,
+        }],
+        mode='payment',
+        success_url=url_for('place_order', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=url_for('dashboard', _external=True),
+    )
+    
+    
+        
+    
+    return render_template(
+        'shopping_cart.html',
+        cart=cart,
+        user=user,
+        total=total,
+        checkout_session_id=session['id'], 
+        checkout_public_key=app.config['STRIPE_PUBLIC-KEY'] 
+        )
 
 @app.post('/add/to/cart/<int:id>')
 @login_required
