@@ -33,3 +33,14 @@ class Shopping_cart_product:
                 product.append(products.Product(row))
         
         return products
+
+    @classmethod
+    def delete_item(self,data):
+        query = """ Delete FROM shopping_cart_products
+                WHERE product_id = %(product_id)s 
+                AND shopping_cart_id = %(shopping_cart_id)s
+                LIMIT 1;"""
+
+        results = connectToMySQL(DB).query_db(query,data)
+
+    

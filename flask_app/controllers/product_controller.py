@@ -54,7 +54,6 @@ def proccess_edit(id):
     products.Product.edit_product(data, id=id)
     return redirect(f'/show/{id}')
 
-
 @app.route('/show/<int:id>')
 @login_required
 def show_one_product(id):
@@ -74,56 +73,6 @@ def show_all_in_category(id):
     category = categories.Category.get_one(id=id)
     user = user_model.User.get_one(id=session['user_id'])
     return render_template('category.html', category=category,user=user)
-
-@app.route('/place/order')
-@login_required
-def place_order():
-    user = user_model.User.get_one(id=session['user_id'])
-    return render_template('past_orders.html', user=user)
-
-
-
-
-
-@app.route('/show/cart/<int:id>')
-@login_required
-def shopping_cart(id):
-    user = user_model.User.get_one_join(shopping_cart_id=id)
-    cart =products.Product.get_products_cart(shopping_cart_id=id)
-    total = 0
-    product_count = 0
-    for item in cart:
-        product_count += 1
-        total += item.price
-    
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price': total,
-            'quantity': product_count,
-        }],
-        mode='payment',
-        success_url=url_for('place_order', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=url_for('dashboard', _external=True),
-    )
-    
-    
-        
-    
-    return render_template(
-        'shopping_cart.html',
-        cart=cart,
-        user=user,
-        total=total,
-        checkout_session_id=session['id'], 
-        checkout_public_key=app.config['STRIPE_PUBLIC-KEY'] 
-        )
-
-@app.post('/add/to/cart/<int:id>')
-@login_required
-def add_to_cart(id):
-    shopping_cart_products.Shopping_cart_product.add_to_cart(request.form)
-    return redirect(f'/show/cart/{id}')
 
 @app.route('/new/product')
 @login_required

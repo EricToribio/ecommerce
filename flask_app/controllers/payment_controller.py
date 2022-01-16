@@ -1,38 +1,43 @@
-from flask import render_template,request,jsonify,session
-from flask_app.config.helper import login_required
 from flask_app import app
+from flask import render_template,redirect,request,session
+from flask_app.config.helper import login_required
 from flask_app.models import user_model
+import stripe
 
 
-@app.route('/checkout')
+@app.post('/pay')
 @login_required
-def checkout():
-    return render_template("checkout.html", user = user_model.User.get_one_join(id=session['user_id']))
+def pay():
+    customer = stripe.Customer.create(
+        email=request.form['stripeEmail'],
+        source=request.form['stripeToken'],
+    )
 
+    charge = stripe.Charge.create(
+    customer=customer.id,
+    description=request.form['description'],
+    amount=request.form['amount'],
+    currency='usd',
+    )
+    return redirect('/success')
 
-
-def calculate_order_amount(items):
-    
-    return 1400
-
-
-@app.route('/create-payment-intent', methods=['POST'])
+@app.route('/success')
 @login_required
-def create_payment():
-    user = user_model.User.get_one_join(id=session['user_id'])
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price': session['total_price'],
-            'quantity': session['product_count'],
-        }],
-        mode='payment',
-        success_url=url_for('/place/order', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=url_for(f'/show/cart/{user.shopping_cart_id}', _external=True),
+def place_order():
+    user = user_model.User.get_one(id=session['user_id'])
+    return render_template('past_orders.html', user=user)
+
+@app.route('/payment',methods=['POST'])
+def payment():
+    customer = stripe.Customer.create(
+        email=request.form['stripeEmail'],
+        source=request.form['stripeToken'],
     )
-    
-    return render_template(
-        'index.html', 
-        checkout_session_id=session['id'], 
-        checkout_public_key=app.config['STRIPE_PUBLIC_KEY']
+
+    charge = stripe.Charge.create(
+    customer=customer.id,
+    description='T-shirt',
+    amount=500,
+    currency='usd',
     )
+    return redirect(url_for('place_order'))
