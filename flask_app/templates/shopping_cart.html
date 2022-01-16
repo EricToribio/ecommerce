@@ -45,6 +45,9 @@
     </ul>
     <form action="/pay" method="POST">
       {% set grand_total = total * 100 %}
+      {% if grand_total == 0%}
+
+      {% else %}
       <script
         src="https://checkout.stripe.com/checkout.js"
         class="stripe-button"
@@ -58,6 +61,7 @@
       <input type="hidden" name="amount"value='{{grand_total}}' >
     </form>
 
+    {% endif %}
     
   </div>
   <div class="col-md-7 col-lg-8">
