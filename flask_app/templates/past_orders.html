@@ -6,5 +6,16 @@
 
 
 {% block body %}
-<h1>Thank you for your purchase past orders coming soon</h1>
+<h1 class="text-center mb-3">Past orders</h1>
+
+{% for order in user_orders %}
+
+    <div class="d-flex gap-4 justify-content-center align-items-center mb-3">
+        <h2>Date Purchased {{order.created_at.strftime("%m/%d/%Y")}} </h2>
+        <h3>Order Number {{order.id}}</h3>
+        <h3>Total ${{order.total}}</h3>
+        <a class="btn btn-success" href="#">View Order</a>
+    </div>
+
+{% endfor %}
 {% endblock %}
