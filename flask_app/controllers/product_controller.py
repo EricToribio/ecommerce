@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,session,url_for ,current_app
 from flask_app.models import user_model, categories, products,shopping_cart_products#enter model name`
 from flask_app import app 
-from flask_app.config.helper import login_required
+from flask_app.config.helper import login_required,admin_required
 import os
 import stripe
 
@@ -20,6 +20,7 @@ def dashboard():
 
 @app.route('/edit/product/<int:id>')
 @login_required
+@admin_required
 def edit_product(id):
     one_product = products.Product.get_one(id=id)
     user= user_model.User.get_one_join(id=session['user_id'])
@@ -30,6 +31,7 @@ def edit_product(id):
 
 @app.post('/product/edit/<int:id>')
 @login_required
+@admin_required
 def proccess_edit(id):
     picture = request.files.get('picture')
     if picture:
@@ -61,11 +63,7 @@ def show_one_product(id):
     user = user_model.User.get_one_join(id=session['user_id'])
     return render_template('show_one_product.html', pro=pro, user=user)
 
-@app.route('/store/<int:id>')
-@login_required
-def user_store(id):
-    user = user_model.User.get_one(id=id)
-    return render_template('user_store.html',user=user)
+
 
 @app.route('/show/category/<int:id>')
 @login_required
@@ -76,12 +74,15 @@ def show_all_in_category(id):
 
 @app.route('/new/product')
 @login_required
+@admin_required
 def add_product():
     user= user_model.User.get_one_join(id=session['user_id'])
     category = categories.Category.get_all()
     return render_template('add_product.html', user= user, category = category)
 
 @app.post('/add/new/product')
+@login_required
+@admin_required
 def and_new_product():
     picture = request.files.get('picture')
     if picture:
@@ -91,6 +92,7 @@ def and_new_product():
 
 @app.route('/delete/product/<int:id>')
 @login_required
+@admin_required
 def delete_product(id):
     products.Product.delete_product(id=id)
     return redirect('/dashboard')

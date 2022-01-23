@@ -35,60 +35,12 @@ a{
 .header{
     background-color: #252F38 ;
 }
-/* #one_product{
-    height: 80%;
-} */
 #product{
     height: 200px;
     width: 200px;
 }
-html {
-    scroll-behavior: smooth;
-}
-body {
-    margin: 0;
-    background-color: #000;
-}
-.wrapper h1 {
-    font-family: Arial;
-    color: #252F38;
-    text-align: center;
-}
-.wrapper {
-    display: grid;
-    grid-template: repeat(2, 100px);
-    overflow: hidden;
-    scroll-behavior: smooth;
-}
-.wrapper section {
-    width: 100%;
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    margin: 20px 0;
-}
-    .wrapper section .item {
-    padding: 0 2px;
-    transition: 250ms all;
-}
-.wrapper section .item:hover {
-    margin: 0 40px;
-    transform: scale(1.2);
-} 
+
 #hide{
     border: none;
     background-color: transparent;
 }
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }

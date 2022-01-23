@@ -17,6 +17,13 @@ def login_required(view):
         return view(*args, **kwargs)
     return inner
 
+def admin_required(view):
+    @wraps(view)
+    def inner(*args, **kwargs):
+        if session['admin'] == 0:
+            return redirect("/dashboard")
+        return view(*args,**kwargs)
+    return inner
 
 # def new_user_validation(func):
 #     @wraps(func)

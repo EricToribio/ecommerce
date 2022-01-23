@@ -36,6 +36,11 @@ def login_user():
         flash("Invalid Email/Password")
         return redirect('/login')
     session['user_id'] = user.id
+    if user.admin == 1:
+        session['admin'] = True
+    else:
+        session['admin'] = False
+    print(session['admin'])
     return redirect('/')
 
 @app.post('/add/user')
@@ -45,6 +50,7 @@ def add_new_user():
         return redirect('/register/user')
     user=user_model.User.add_user(request.form)
     session['user_id'] = user
+    session['admin'] = False
     return redirect('/dashboard')
 
 @app.post('/edit/user/account')
